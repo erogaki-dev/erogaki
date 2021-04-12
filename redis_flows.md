@@ -51,12 +51,10 @@ Send the received error message to the user.
 
 ## DeepCreamPy-erogaki-wrapper: image receive and processing
 
-### loop for new image uuid
-
-redis looping:
+### wait for new image uuid
 
 ```
-BLPOP censored-images:deepcreampy:bar <seconds>
+BLPOP censored-images:deepcreampy:bar 0
 ```
 
 returns:
@@ -102,12 +100,10 @@ SET errors:uuid "no regions to decensor found"
 
 ## hent-ai-erogaki-wrapper: image receive and processing
 
-### loop for new image uuid
-
-redis looping:
+### wait for new image uuid
 
 ```
-BLPOP censored-images:hent-ai:bar censored-images:hent-ai:mosaic <seconds>
+BLPOP censored-images:hent-ai:bar censored-images:hent-ai:mosaic 0
 ```
 
 returns:
