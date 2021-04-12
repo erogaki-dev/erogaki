@@ -6,7 +6,7 @@ redis-cli config set notify-keyspace-events AKE
 
 (this can probably be more specific)
 
-## image request and receive - erogaki
+## erogaki: image request and receive
 
 ### image request
 
@@ -49,7 +49,7 @@ DEL errors:uuid
 
 Send the received error message to the user.
 
-## image receive and processing - DeepCreamPy
+## DeepCreamPy-erogaki-wrapper: image receive and processing
 
 ### loop for new image uuid
 
@@ -100,7 +100,7 @@ redis:
 SET errors:uuid "no regions to decensor found"
 ```
 
-## image receive and processing - hent-ai
+## hent-ai-erogaki-wrapper: image receive and processing
 
 ### loop for new image uuid
 
@@ -137,7 +137,7 @@ returns:
 
 process the image
 
-#### if procesing was sucessful: make image processing request for DeepCreamPy
+#### if procesing was sucessful: make image processing request for DeepCreamPy-erogaki-wrapper
 
 redis:
 
