@@ -36,7 +36,7 @@ Send the received image to the user.
 
 ### after keyevent `errors:<uuid>`
 
-Unsubscribe from keyevents, get the error message and delete it.
+Unsubscribe from keyevents, get the error json and delete it.
 
 redis:
 
@@ -47,7 +47,7 @@ GET errors:uuid
 DEL errors:uuid
 ```
 
-Send the received error message to the user.
+Use the json to craft an error message for the user and send it.
 
 ## DeepCreamPy-erogaki-wrapper: image receive and processing
 
@@ -82,7 +82,7 @@ returns:
 
 process the image
 
-### if procesing was sucessful: return the image
+### if processing was sucessful: return the image
 
 redis:
 
@@ -90,15 +90,26 @@ redis:
 SET uncensored-images:uuid <image-data>
 ```
 
-### if procesing wasn't sucessful: return an error
+### if processing wasn't sucessful: return an error
+
+`error`:
+
+```json
+{
+    "component": "DeepCreamPy-erogaki-wrapper",
+    "instance": "<instance-name>",
+    "name": "<error-name>",
+    "description": "<error-description>"
+}
+```
 
 redis:
 
 ```
-SET errors:uuid "no regions to decensor found"
+SET errors:uuid error
 ```
 
-## hent-ai-erogaki-wrapper: image receive and processing
+## hent-AI-erogaki-wrapper: image receive and processing
 
 ### wait for new image uuid
 
@@ -143,10 +154,21 @@ RPUSH censored-image:deepcreampy:bar <uuid>
 
 #### if procesing wasn't sucessful: return an error
 
+`error`:
+
+```json
+{
+    "component": "hent-AI-erogaki-wrapper",
+    "instance": "<instance-name>",
+    "name": "<error-name>",
+    "description": "<error-description>"
+}
+```
+
 redis:
 
 ```
-SET errors:uuid "no regions to decensor found"
+SET errors:uuid error
 ```
 
 ### if key is `censored-images:hent-ai:mosaic`
@@ -179,8 +201,19 @@ SET uncensored-images:uuid <image-data>
 
 ### if procesing wasn't sucessful: return an error
 
+`error`:
+
+```json
+{
+    "component": "hent-AI-erogaki-wrapper",
+    "instance": "<instance-name>",
+    "name": "<error-name>",
+    "description": "<error-description>"
+}
+```
+
 redis:
 
 ```
-SET errors:uuid "no regions to decensor found"
+SET errors:uuid error
 ```
