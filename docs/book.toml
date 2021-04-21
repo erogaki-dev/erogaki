@@ -4,6 +4,7 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Erogaki Planning Docs"
+cname = "docs.erogaki.moe"
 
 [output.html]
 no-section-label = true
