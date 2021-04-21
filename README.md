@@ -13,7 +13,3 @@ It consists of the following repositories:
 
 You can use the erogaki-discord instance hosted by the Erogaki developers.
 To add the bot to your server [click here](https://discord.com/api/oauth2/authorize?client_id=832752181064106034&permissions=52288&scope=bot).
-
-## Planning
-
-![execution flow](https://github.com/erogaki-dev/planning/releases/latest/download/execution_flow.png "execution flow")
