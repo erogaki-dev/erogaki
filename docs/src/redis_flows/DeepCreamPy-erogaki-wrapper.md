@@ -3,7 +3,7 @@
 ## wait for new image uuid
 
 ```
-BLPOP masked-images:bar|mosaic 0
+BLPOP decensor-requests:bar|mosaic 0
 ```
 
 returns:
