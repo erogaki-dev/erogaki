@@ -35,6 +35,7 @@ mask the image
 
 ```
 RPUSH decensor-requests:<key> <uuid>
+SET masked-images:uuid <image-data>
 ```
 
 ## if masking wasn't successful: return error
