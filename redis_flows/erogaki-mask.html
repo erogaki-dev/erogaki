@@ -182,6 +182,7 @@
 <p>mask the image</p>
 <h2 id="if-masking-was-successul-create-decensor-request"><a class="header" href="#if-masking-was-successul-create-decensor-request">if masking was successul: create decensor request</a></h2>
 <pre><code>RPUSH decensor-requests:&lt;key&gt; &lt;uuid&gt;
+SET masked-images:uuid &lt;image-data&gt;
 </code></pre>
 <h2 id="if-masking-wasnt-successful-return-error"><a class="header" href="#if-masking-wasnt-successful-return-error">if masking wasn't successful: return error</a></h2>
 <p><code>error</code>:</p>
