@@ -11,4 +11,14 @@ It consists of the following repositories:
 
 ## Docs
 
-Docs regarding the design of the erogaki projects can be found under <https://docs.erogaki.moe>.
+Docs regarding the erogaki projects can be found under <https://docs.erogaki.moe>.
+
+## Docker
+
+You can also find all our components on Docker Hub:
+
+- [Docker Hub: erogaki-discord](https://hub.docker.com/r/erogakidev/erogaki-discord)
+- [Docker Hub: erogaki-mask](https://hub.docker.com/r/erogakidev/erogaki-mask)
+- [Docker Hub: DeepCreamPy-erogaki-wrapper](https://hub.docker.com/r/erogakidev/deepcreampy-erogaki-wrapper)
+
+To find out how to use these images, see our Docker Guide (coming soon).
