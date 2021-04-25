@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>erogaki-mask - Erogaki Planning Docs</title>
+        <title>Setup Instructions - Erogaki Planning Docs</title>
         
         
 
@@ -18,28 +18,28 @@
         <meta name="theme-color" content="#ffffff" />
 
         
-        <link rel="icon" href="../favicon.svg">
+        <link rel="icon" href="favicon.svg">
         
         
-        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="shortcut icon" href="favicon.png">
         
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
         
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="stylesheet" href="css/print.css" media="print">
         
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
         
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
@@ -49,7 +49,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "../";
+            var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../redis_flows.html">Redis Flows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../redis_flows/erogaki-discord.html">erogaki-discord</a></li><li class="chapter-item expanded "><a href="../redis_flows/erogaki-classify.html">erogaki-classify</a></li><li class="chapter-item expanded "><a href="../redis_flows/erogaki-mask.html" class="active">erogaki-mask</a></li><li class="chapter-item expanded "><a href="../redis_flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li></ol></li><li class="chapter-item expanded "><a href="../redis_keys.html">Redis Keys</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="setup-instructions.html" class="active">Setup Instructions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="setup-instructions/docker.html">Docker</a></li></ol></li><li class="chapter-item expanded "><a href="design.html">Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="design/redis-flows.html">Redis Flows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="design/redis-flows/erogaki-discord.html">erogaki-discord</a></li><li class="chapter-item expanded "><a href="design/redis-flows/erogaki-classify.html">erogaki-classify</a></li><li class="chapter-item expanded "><a href="design/redis-flows/erogaki-mask.html">erogaki-mask</a></li><li class="chapter-item expanded "><a href="design/redis-flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li></ol></li><li class="chapter-item expanded "><a href="design/redis-keys.html">Redis Keys</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -131,7 +131,7 @@
 
                     <div class="right-buttons">
                         
-                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         
@@ -163,52 +163,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="erogaki-mask"><a class="header" href="#erogaki-mask">erogaki-mask</a></h1>
-<h3 id="wait-for-new-image-uuid"><a class="header" href="#wait-for-new-image-uuid">wait for new image uuid</a></h3>
-<pre><code>BLPOP mask-requests:bar|mosaic 0
-</code></pre>
-<p>returns:</p>
-<pre><code>1) key
-2) value = uuid
-</code></pre>
-<h2 id="get-image-data"><a class="header" href="#get-image-data">get image data</a></h2>
-<p>redis:</p>
-<pre><code>GET censored-images:uuid
-</code></pre>
-<p>returns:</p>
-<pre><code>&lt;image-data&gt;
-</code></pre>
-<h3 id="mask-image"><a class="header" href="#mask-image">mask image</a></h3>
-<p>mask the image</p>
-<h2 id="if-masking-was-successul-create-decensor-request"><a class="header" href="#if-masking-was-successul-create-decensor-request">if masking was successul: create decensor request</a></h2>
-<pre><code>RPUSH decensor-requests:&lt;key&gt; &lt;uuid&gt;
-SET masked-images:uuid &lt;image-data&gt;
-</code></pre>
-<h2 id="if-masking-wasnt-successful-return-error"><a class="header" href="#if-masking-wasnt-successful-return-error">if masking wasn't successful: return error</a></h2>
-<p><code>error</code>:</p>
-<pre><code class="language-json">{
-    &quot;component&quot;: &quot;erogaki-mask&quot;,
-    &quot;instance&quot;: &quot;&lt;instance-name&gt;&quot;,
-    &quot;name&quot;: &quot;&lt;error-name&gt;&quot;,
-    &quot;description&quot;: &quot;&lt;error-description&gt;&quot;
-}
-</code></pre>
-<p>redis:</p>
-<pre><code>SET errors:uuid error
-</code></pre>
+                        <h1 id="setup-instructions"><a class="header" href="#setup-instructions">Setup Instructions</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../redis_flows/erogaki-classify.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        
 
                         
-                            <a rel="next" href="../redis_flows/DeepCreamPy-erogaki-wrapper.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="setup-instructions/docker.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -220,13 +184,9 @@ SET masked-images:uuid &lt;image-data&gt;
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../redis_flows/erogaki-classify.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                
 
                 
-                    <a rel="next" href="../redis_flows/DeepCreamPy-erogaki-wrapper.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="setup-instructions/docker.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -249,14 +209,14 @@ SET masked-images:uuid &lt;image-data&gt;
         
 
         
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
         
 
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         

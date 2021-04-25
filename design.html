@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Redis Keys - Erogaki Planning Docs</title>
+        <title>Design - Erogaki Planning Docs</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="redis_flows.html">Redis Flows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="redis_flows/erogaki-discord.html">erogaki-discord</a></li><li class="chapter-item expanded "><a href="redis_flows/erogaki-classify.html">erogaki-classify</a></li><li class="chapter-item expanded "><a href="redis_flows/erogaki-mask.html">erogaki-mask</a></li><li class="chapter-item expanded "><a href="redis_flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li></ol></li><li class="chapter-item expanded "><a href="redis_keys.html" class="active">Redis Keys</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="setup-instructions.html">Setup Instructions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="setup-instructions/docker.html">Docker</a></li></ol></li><li class="chapter-item expanded "><a href="design.html" class="active">Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="design/redis-flows.html">Redis Flows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="design/redis-flows/erogaki-discord.html">erogaki-discord</a></li><li class="chapter-item expanded "><a href="design/redis-flows/erogaki-classify.html">erogaki-classify</a></li><li class="chapter-item expanded "><a href="design/redis-flows/erogaki-mask.html">erogaki-mask</a></li><li class="chapter-item expanded "><a href="design/redis-flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li></ol></li><li class="chapter-item expanded "><a href="design/redis-keys.html">Redis Keys</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,31 +163,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="redis-keys"><a class="header" href="#redis-keys">Redis Keys</a></h1>
-<h2 id="information-stores"><a class="header" href="#information-stores">Information Stores</a></h2>
-<ul>
-<li><code>censored-images:&lt;uuid&gt;</code></li>
-<li><code>masked-images:&lt;uuid&gt;</code></li>
-<li><code>decensored-images:&lt;uuid&gt;</code></li>
-<li><code>errors:&lt;uuid&gt;</code></li>
-</ul>
-<h2 id="queues"><a class="header" href="#queues">Queues</a></h2>
-<ul>
-<li><code>classify-requests</code></li>
-<li><code>mask-requests:bar|mosaic</code></li>
-<li><code>decensor-requests:bar|mosaic</code></li>
-</ul>
+                        <h1 id="design"><a class="header" href="#design">Design</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="redis_flows/DeepCreamPy-erogaki-wrapper.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="setup-instructions/docker.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
+                        
+                            <a rel="next" href="design/redis-flows.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -197,11 +188,15 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="redis_flows/DeepCreamPy-erogaki-wrapper.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="setup-instructions/docker.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
+                
+                    <a rel="next" href="design/redis-flows.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
                 
             </nav>
 

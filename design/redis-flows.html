@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>erogaki-discord - Erogaki Planning Docs</title>
+        <title>Redis Flows - Erogaki Planning Docs</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../redis_flows.html">Redis Flows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../redis_flows/erogaki-discord.html" class="active">erogaki-discord</a></li><li class="chapter-item expanded "><a href="../redis_flows/erogaki-classify.html">erogaki-classify</a></li><li class="chapter-item expanded "><a href="../redis_flows/erogaki-mask.html">erogaki-mask</a></li><li class="chapter-item expanded "><a href="../redis_flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li></ol></li><li class="chapter-item expanded "><a href="../redis_keys.html">Redis Keys</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../setup-instructions.html">Setup Instructions</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../setup-instructions/docker.html">Docker</a></li></ol></li><li class="chapter-item expanded "><a href="../design.html">Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../design/redis-flows.html" class="active">Redis Flows</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../design/redis-flows/erogaki-discord.html">erogaki-discord</a></li><li class="chapter-item expanded "><a href="../design/redis-flows/erogaki-classify.html">erogaki-classify</a></li><li class="chapter-item expanded "><a href="../design/redis-flows/erogaki-mask.html">erogaki-mask</a></li><li class="chapter-item expanded "><a href="../design/redis-flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li></ol></li><li class="chapter-item expanded "><a href="../design/redis-keys.html">Redis Keys</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,138 +163,31 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="erogaki-discord-image-request-and-receive"><a class="header" href="#erogaki-discord-image-request-and-receive">erogaki-discord: image request and receive</a></h1>
-<h2 id="user-message-of-type-decensor-manual-bar"><a class="header" href="#user-message-of-type-decensor-manual-bar">user message of type: <code>!decensor manual bar</code></a></h2>
-<h3 id="create-image-request"><a class="header" href="#create-image-request">create image request</a></h3>
-<p>redis:</p>
-<pre><code>SET masked-images:uuid &lt;image-data&gt;
-SUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-SUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-RPUSH decensor-requests:bar &lt;uuid&gt;
+                        <h1 id="redis-flows"><a class="header" href="#redis-flows">Redis Flows</a></h1>
+<p>The following needs to be set:</p>
+<pre><code>redis-cli config set notify-keyspace-events AKE
 </code></pre>
-<h3 id="after-keyevent-decensored-imagesuuid"><a class="header" href="#after-keyevent-decensored-imagesuuid">after keyevent <code>decensored-images:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the decensored image and delete all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET decensored-images:uuid
-DEL decensored-images:uuid
-DEL masked-images:uuid
-</code></pre>
-<p>Send the received image to the user.</p>
-<h3 id="after-keyevent-errorsuuid"><a class="header" href="#after-keyevent-errorsuuid">after keyevent <code>errors:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the error json and delete it and all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET errors:uuid
-DEL errors:uuid
-DEL masked-images:uuid
-</code></pre>
-<p>Use the json to craft an error message for the user and send it.</p>
-<h2 id="user-message-of-type-decensor-auto-bar"><a class="header" href="#user-message-of-type-decensor-auto-bar">user message of type: <code>!decensor auto bar</code></a></h2>
-<h3 id="create-image-request-1"><a class="header" href="#create-image-request-1">create image request</a></h3>
-<p>redis:</p>
-<pre><code>SET censored-images:uuid &lt;image-data&gt;
-SUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-SUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-RPUSH mask-requests:bar &lt;uuid&gt;
-</code></pre>
-<h3 id="after-keyevent-decensored-imagesuuid-1"><a class="header" href="#after-keyevent-decensored-imagesuuid-1">after keyevent <code>decensored-images:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the decensored image and delete all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET decensored-images:uuid
-DEL decensored-images:uuid
-DEL masked-images:uuid
-DEL censored-images:uuid
-</code></pre>
-<p>Send the received image to the user.</p>
-<h3 id="after-keyevent-errorsuuid-1"><a class="header" href="#after-keyevent-errorsuuid-1">after keyevent <code>errors:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the error json and delete it and all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET errors:uuid
-DEL errors:uuid
-DEL masked-images:uuid
-DEL censored-images:uuid
-</code></pre>
-<p>Use the json to craft an error message for the user and send it.</p>
-<h2 id="user-message-of-type-decensor-auto-mosaic"><a class="header" href="#user-message-of-type-decensor-auto-mosaic">user message of type: <code>!decensor auto mosaic</code></a></h2>
-<h3 id="create-image-request-2"><a class="header" href="#create-image-request-2">create image request</a></h3>
-<p>redis:</p>
-<pre><code>SET censored-images:uuid &lt;image-data&gt;
-SUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-SUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-RPUSH mask-requests:mosaic &lt;uuid&gt;
-</code></pre>
-<h3 id="after-keyevent-decensored-imagesuuid-2"><a class="header" href="#after-keyevent-decensored-imagesuuid-2">after keyevent <code>decensored-images:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the decensored image and delete all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET decensored-images:uuid
-DEL decensored-images:uuid
-DEL masked-images:uuid
-DEL censored-images:uuid
-</code></pre>
-<p>Send the received image to the user.</p>
-<h3 id="after-keyevent-errorsuuid-2"><a class="header" href="#after-keyevent-errorsuuid-2">after keyevent <code>errors:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the error json and delete it and all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET errors:uuid
-DEL errors:uuid
-DEL masked-images:uuid
-DEL censored-images:uuid
-</code></pre>
-<p>Use the json to craft an error message for the user and send it.</p>
-<h2 id="user-message-of-type-decensor"><a class="header" href="#user-message-of-type-decensor">user message of type: <code>!decensor</code></a></h2>
-<h3 id="create-image-request-3"><a class="header" href="#create-image-request-3">create image request</a></h3>
-<p>redis:</p>
-<pre><code>SET censored-images:uuid &lt;image-data&gt;
-SUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-SUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-RPUSH classify-requests &lt;uuid&gt;
-</code></pre>
-<h3 id="after-keyevent-decensored-imagesuuid-3"><a class="header" href="#after-keyevent-decensored-imagesuuid-3">after keyevent <code>decensored-images:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the decensored image and delete all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET decensored-images:uuid
-DEL decensored-images:uuid
-DEL masked-images:uuid
-DEL censored-images:uuid
-</code></pre>
-<p>Send the received image to the user.</p>
-<h3 id="after-keyevent-errorsuuid-3"><a class="header" href="#after-keyevent-errorsuuid-3">after keyevent <code>errors:&lt;uuid&gt;</code></a></h3>
-<p>Unsubscribe from keyevents, get the error json and delete it and all images.</p>
-<p>redis:</p>
-<pre><code>UNSUBSCRIBE __keyevent@0__:set decensored-images:&lt;uuid&gt;
-UNSUBSCRIBE __keyevent@0__:set errors:&lt;uuid&gt;
-GET errors:uuid
-DEL errors:uuid
-DEL masked-images:uuid
-DEL censored-images:uuid
-</code></pre>
-<p>Use the json to craft an error message for the user and send it.</p>
+<p>(this can probably be more specific)</p>
+<h2 id="flows"><a class="header" href="#flows">Flows</a></h2>
+<ul>
+<li><a href="./redis_flows/erogaki-discord.html">erogaki-discord</a></li>
+<li><a href="./redis_flows/erogaki-classify.html">erogaki-classify</a></li>
+<li><a href="./redis_flows/erogaki-mask.html">erogaki-mask</a></li>
+<li><a href="./redis_flows/DeepCreamPy-erogaki-wrapper.html">DeepCreamPy-erogaki-wrapper</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="../redis_flows.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../design.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="../redis_flows/erogaki-classify.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../design/redis-flows/erogaki-discord.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -306,13 +199,13 @@ DEL censored-images:uuid
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="../redis_flows.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../design.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="../redis_flows/erogaki-classify.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../design/redis-flows/erogaki-discord.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
