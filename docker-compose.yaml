@@ -1,7 +1,7 @@
 # This file uses `network_mode: host`, because I didn't got docker-compose networking to work properly.
 services:
     redis:
-        image: "redis:alpine"
+        image: "erogakidev/erogaki-redis:0.1"
         network_mode: host
     deepcreampy-erogaki-wrapper-bar:
         image: "erogakidev/deepcreampy-erogaki-wrapper:0.1.1"
