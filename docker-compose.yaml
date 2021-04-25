@@ -1,0 +1,47 @@
+# This file uses `network_mode: host`, because I didn't got docker-compose networking to work properly.
+services:
+    redis:
+        image: "redis:alpine"
+        network_mode: host
+    deepcreampy-erogaki-wrapper-bar:
+        image: "erogakidev/deepcreampy-erogaki-wrapper:0.1.1"
+        depends_on:
+            - redis
+        environment:
+            - CENSOR_TYPE=bar
+            - PYTHONUNBUFFERED=1
+        network_mode: host
+        volumes:
+            - erogaki-models:/model
+    deepcreampy-erogaki-wrapper-mosaic:
+        image: "erogakidev/deepcreampy-erogaki-wrapper:0.1.1"
+        depends_on:
+            - redis
+        environment:
+            - CENSOR_TYPE=mosaic
+            - PYTHONUNBUFFERED=1
+        network_mode: host
+        volumes:
+            - erogaki-models:/model
+    erogaki-mask:
+        image: "erogakidev/erogaki-mask:0.1.2"
+        depends_on:
+            - redis
+        environment:
+            - PYTHONUNBUFFERED=1
+        network_mode: host
+        volumes:
+            - erogaki-models:/models
+    erogaki-discord:
+        image: "erogakidev/erogaki-discord:0.3.1"
+        depends_on:
+            - redis
+            - deepcreampy-erogaki-wrapper-bar
+            - deepcreampy-erogaki-wrapper-mosaic
+            - erogaki-mask
+        env_file:
+            - erogaki-discord.env
+        network_mode: host
+
+volumes:
+    erogaki-models:
