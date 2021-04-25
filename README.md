@@ -8,3 +8,7 @@ It consists of the following repositories:
 - [erogaki-mask](https://github.com/erogaki-dev/erogaki-mask) (A component to handle detection and masking of censored regions.)
 - [DeepCreamPy-erogaki-wrapper](https://github.com/erogaki-dev/DeepCreamPy-erogaki-wrapper) (Our wrapper for [DeepCreamPy](https://github.com/erogaki-dev/DeepCreamPy), so it works with other erogaki components.)
 - [erogaki-wrapper-shared-python](https://github.com/erogaki-dev/erogaki-wrapper-shared-python) (Shared Python code for erogaki-wrappers written in Python.)
+
+## Docs
+
+Docs regarding the design of the erogaki projects can be found under <https://docs.erogaki.moe>.
