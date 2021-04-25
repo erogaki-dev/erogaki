@@ -21,4 +21,4 @@ You can also find all our components on Docker Hub:
 - [Docker Hub: erogaki-mask](https://hub.docker.com/r/erogakidev/erogaki-mask)
 - [Docker Hub: DeepCreamPy-erogaki-wrapper](https://hub.docker.com/r/erogakidev/deepcreampy-erogaki-wrapper)
 
-To find out how to use these images, see our Docker (Compose) Documentation <https://docs.erogaki.moe/setup-instructions/docker.html>.
+To find out how to use these images, see our Docker (Compose) Documentation <https://docs.erogaki.moe/setup-instructions/docker>.
